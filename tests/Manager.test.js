@@ -13,8 +13,4 @@ class Manager extends Employee {
 
 const staff = new Manager('Tori',1,'email@email.com','Manager',322);
 
-staff.getName();
-staff.getId();
-staff.getEmail();
-staff.getRole();
 staff.getOfficeNum();
