@@ -23,9 +23,11 @@ class Employee {
     }
 }
 
-const staff = new Employee('Tori',1,'email@email.com','Manager');
+const staff = new Employee('Tori',1,'email@email.com','Employee');
 
 staff.getName();
 staff.getId();
 staff.getEmail();
 staff.getRole();
+
+module.exports = Employee;
