@@ -22,3 +22,10 @@ class Employee {
         console.log(this.role);
     }
 }
+
+const staff = new Employee('Tori',1,'email@email.com','Manager');
+
+staff.getName();
+staff.getId();
+staff.getEmail();
+staff.getRole();
