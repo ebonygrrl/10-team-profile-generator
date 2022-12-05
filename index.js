@@ -3,17 +3,6 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const { default: Prompt } = require('inquirer/lib/prompts/base');
 
-const validator = async (input) => {
-    let regex = '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/';
-    let pass = '';
-    if(!input.match(regex)) {
-        return 'Invalid email.';
-    } 
-
-    return true;
-}
-    
-
 const questions = [
     /*{
         type: 'input',
