@@ -1,3 +1,8 @@
+.DS_Store
+
+# HTML
+*.html
+
 # Logs
 logs
 *.log
