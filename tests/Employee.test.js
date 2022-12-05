@@ -1,33 +1,12 @@
-class Employee {
-    constructor(name,id,email,role) {
-        this.name  = name;
-        this.id    = id;
-        this.email = email;
-        this.role  = role;
-    }
+//const { exportAllDeclaration } = require('@babel/types');
+const { exportAllDeclaration } = require('@babel/types');
+const Employee = require('../lib/Employee');
 
-    getName() {
-        console.log(this.name);
-    }
-
-    getId() {
-        console.log(this.id);
-    }
-
-    getEmail() {
-        console.log(this.email);
-    }
-
-    getRole() {
-        console.log(this.role);
-    }
-}
-
-const staff = new Employee('Tori',1,'email@email.com','Employee');
-
-staff.getName();
-staff.getId();
-staff.getEmail();
-staff.getRole();
-
-module.exports = Employee;
+describe('Employee', () => {
+    it('should output employee name', () => {
+        const name = "Tori";
+        const staff = new Employee().getName();
+        expec
+        
+    });
+});
