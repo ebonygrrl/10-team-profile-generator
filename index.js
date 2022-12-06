@@ -2,7 +2,7 @@
 const inquirer = require('inquirer');
 
 // module.export
-const exportInfo = require('./src/templateBuilder.js');
+const templateBuilder = require('./src/templateBuilder.js');
 
 // create file package
 const fs = require('fs');
@@ -36,12 +36,29 @@ const questions = [
         choices: ['Enginner','Intern',new inquirer.Separator(),'Finish building team'],        
     },
 ];
+// write the file
+const writeToFile = (file,data) => {
+    fs.writeFile(file,data,(err) => {
+        let title = data.addmember;
+        let staff = '';
+
+        if (title === 'Engineer') {
+            staff = new Engineer(data.fname, data.id, data.email, data.github);
+        } else if (title === 'Intern') {
+            staff = new Intern(data.fname, data.id, data.email, data.school);
+        } else {
+            staff = new Manager(data.fname, data.id, data.email, data.office);
+        }
+    //err ? console.log(err) : console.log('Successfully created README.md!')); 
+    });
+}
 
 // initialize app
 const init = () => {     
     inquirer
         .prompt(questions)
         .then((answers) => {
+            // data
             const employeeContent = templateBuilder(answers);
 
             writeToFile('./dist/index.html', employeeContent);            

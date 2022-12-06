@@ -234,10 +234,11 @@
     "type": "git",
     "url": "git+https://github.com/ebonygrrl/10-team-profile-generator.git"
   },
-  "author": "",
+  "author": "Tori Booker",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ebonygrrl/10-team-profile-generator/issues"
   },
-  "homepage": "https://github.com/ebonygrrl/10-team-profile-generator#readme"
+  "homepage": "https://github.com/ebonygrrl/10-team-profile-generator#readme",
+  "devDependencies": {}
 }
