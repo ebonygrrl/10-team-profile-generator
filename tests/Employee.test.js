@@ -1,6 +1,5 @@
 const Employee = require('../lib/Employee');
 
-
 describe('Employee class', () => {
     it('should output employee information', () => {
         const name = "Tori";
