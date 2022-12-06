@@ -1,6 +1,5 @@
 const Manager = require('../lib/Manager');
 
-
 describe('Manager class', () => {
     it('should output employee information', () => {
         const name = "Tori";

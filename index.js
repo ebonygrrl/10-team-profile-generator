@@ -1,10 +1,15 @@
+// application package
 const inquirer = require('inquirer');
 
-const fs = require('fs');
-const { default: Prompt } = require('inquirer/lib/prompts/base');
+// module.export
+const exportInfo = require('./src/templateBuilder.js');
 
+// create file package
+const fs = require('fs');
+
+// array for user input
 const questions = [
-    /*{
+    {
         type: 'input',
         name: 'fname',
         message: 'Please enter team manager\'s first name.'
@@ -13,14 +18,13 @@ const questions = [
         type: 'number',
         name: 'id',
         message: 'Please enter team manager\'s employee ID.'
-    },*/
+    },
     {
         type: 'input',
         name: 'email',
-        message: 'Please enter team manager\'s email address.',
-        validate: validator,
+        message: 'Please enter team manager\'s email address.'
     },
-    /*{
+    {
         type: 'number',
         name: 'office',
         message: 'Please enter team manager\'s office number.'
@@ -30,24 +34,17 @@ const questions = [
         name: 'addmember',
         message: 'Please select employee\'s role.',
         choices: ['Enginner','Intern',new inquirer.Separator(),'Finish building team'],        
-    },*/
+    },
 ];
 
-const init = () => {
-    const answer = await inquirer.prompt({
-        name: 'answer',
-        message: 'are you sure?'
-        type: 'input',
-        validate: confirmAnswerValidator
-     });
-     
+// initialize app
+const init = () => {     
     inquirer
         .prompt(questions)
         .then((answers) => {
-            let newEmail = answers.email.toLowerCase();
+            const employeeContent = templateBuilder(answers);
 
-            console.log(`${newEmail}`);
-            
+            writeToFile('./dist/index.html', employeeContent);            
         });
 }
 
