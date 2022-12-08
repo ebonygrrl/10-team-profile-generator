@@ -63,16 +63,31 @@ const employeeQuestions = [
         type: 'input',
         name: 'fname',
         message: 'Please enter employee\'s first name.',
-    }, 
+        when(answers) { 
+            if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
+                return true;
+            }        
+        },
+    },  
     {
         type: 'number',
         name: 'id',
         message: 'Please enter employee\'s ID.',
+        when(answers) { 
+            if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
+                return true;
+            }        
+        },
     },
     {
         type: 'input',
         name: 'email',
         message: 'Please enter employee\'s email address.',
+        when(answers) { 
+            if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
+                return true;
+            }        
+        },
     },
 ];
 
@@ -105,11 +120,16 @@ const internQuestion = [
 ];
 
 // write the file
-const writeToFile = (file, data) => {
-    fs.writeFile(file, data, (err) => {
+const writeToFile = () => {
+    //collected data stored in output array
+    const employeeContent = templateBuilder(output);
 
-        err ? console.log(err) : console.log('Successfully created index.html!');
-    });
+    //console.log(employeeContent);
+
+    // fs.writeFile('./dist/index.html', employeeContent, (err) => {
+
+    //     err ? console.log(err) : console.log('Successfully created index.html!');
+    // });
 }
 
 // initialize app
@@ -125,7 +145,7 @@ const managerPrompt = () => {
         .prompt(managerQuestions)
         .then(answers => {
 
-            const staff = new Manager (answers.fname, answers.email, answers.id, 'Manager', answers.office);
+            const staff = new Manager (answers.fname, answers.id, answers.email, 'Manager', answers.office);
 
             // add responses to empty array
             output.push(staff);
@@ -146,27 +166,28 @@ const employeePrompt = () => {
                 inquirer
                     .prompt(engineerQuestion)
                     .then(response => {
-                        const engineerStaff = new Engineer(answers.fname, answers.email, answers.id, 'Engineer', response.github);
+                        const engineerStaff = new Engineer(answers.fname, answers.id, answers.email, 'Engineer', response.github);
                         
                         output.push(engineerStaff);
                 
                         // add another team member
                         addStaff();
                     });
-            }
-
-            // get engineer info
-            if (answers.addmember === 'Intern') {
+            } else if (answers.addmember === 'Intern') {
                 inquirer
                     .prompt(internQuestion)
                     .then(response => {
-                        const internStaff = new Intern(answers.name, answers.email, answers.id, 'Intern', response.school);
+                        const internStaff = new Intern(answers.name, answers.id, answers.email, 'Intern', response.school);
 
                         output.push(internStaff);
                 
                         // add another team member
                         addStaff();
                     });
+            } else {
+                console.log(`output: ${JSON.stringify(output)}`);
+                // handle writing html file
+                writeToFile();
             }
         });
 }
@@ -189,10 +210,8 @@ const addStaff = () => {
              } else {                
                 //console.log(output);
 
-                //collected data stored in array
-                const employeeContent = templateBuilder(JSON.stringify(output));
-                console.log(employeeContent);
-                writeToFile('./dist/index.html', employeeContent);  
+                // handle writing html file
+                writeToFile();  
              }
         });
 }
