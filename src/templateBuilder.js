@@ -36,6 +36,7 @@ const footer = () => {
 }
 
 const body = (data) => {
+    
     let icon = icons(data.addmember);
 
     const output = `<header>My Team</header>
