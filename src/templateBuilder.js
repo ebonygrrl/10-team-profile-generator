@@ -35,7 +35,7 @@ const footer = () => {
 </html>`;
 }
 
-const body = (data) => {
+const card = (data) => {
     
     let icon = icons(data.addmember);
 
@@ -63,7 +63,7 @@ return output;
 
 const templateBuilder = (data) => {
     header();
-    body(data);
+    card(data);
     footer();
 }
 
