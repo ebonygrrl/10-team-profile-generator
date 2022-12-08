@@ -26,7 +26,10 @@ const header = () => {
 <link rel="stylesheet" href="./assets/css/style.css" />
 <title>My Team</title>
 </head>
-<body>`;
+<body>
+<header><h1>My Team</h1></header>
+<div class="container">
+<main>`;
 }
 
 // generate footer for index.html
@@ -35,37 +38,44 @@ const footer = () => {
 </html>`;
 }
 
-const card = (data) => {
+// get data from output array (index.js)
+const card = data => {
+    console.log(data);
+//     let htmlOutput = `
+// <div class="employee-block col-lg-2 col-md-6 col-sm-12">
+// <div class="employee-header">`;
+
+//     for (let i=0; i < data.length; i++) {
+
+//     }
     
-    let icon = icons(data.addmember);
+//     let icon = icons(data.addmember);
 
-    const output = `<header>My Team</header>
-<div class="container">
-<main>
-<div class="employee-block col-lg-2 col-md-6 col-sm-12">
-<div class="employee-header">
-<div>${data.fname}</div>
-<div>${icon} ${data.title}</div>
-</div>
-<div class="employee-details">
-<div>${data.id}</div>
-<div>${data.email}</div>
-<div>${data.office}</div>
-<div>${data.github}</div>
-<div>${data.school}</div>
-</div>
-</div>
-</main>
-</div>`;
+//  `   
+// <div>${data.fname}</div>
+// <div>${icon} ${data.title}</div>
+// </div>
+// <div class="employee-details">
+// <div>${data.id}</div>
+// <div>${data.email}</div>
+// <div>${data.office}</div>
+// <div>${data.github}</div>
+// <div>${data.school}</div>
+// </div>
+// </div>
+// </main>
+// </div>`;
 
-return output;
+// return output;
 } 
 
-const templateBuilder = (data) => {
-    header();
-    card(data);
-    footer();
-}
+// const templateBuilder = (data) => {
+//     header();
+//     card(data);
+//     footer();
+// }
+
+card();
 
 // export template
-module.exports = templateBuilder;
+module.exports = card;

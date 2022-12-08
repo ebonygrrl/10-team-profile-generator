@@ -107,7 +107,6 @@ const internQuestion = [
 // write the file
 const writeToFile = (file, data) => {
     fs.writeFile(file, data, (err) => {
-        
 
         err ? console.log(err) : console.log('Successfully created index.html!');
     });
@@ -126,7 +125,7 @@ const managerPrompt = () => {
         .prompt(managerQuestions)
         .then(answers => {
 
-            const staff = new Manager (answers.name, answers.email, answers.id, answers.role, answers.office);
+            const staff = new Manager (answers.fname, answers.email, answers.id, 'Manager', answers.office);
 
             // add responses to empty array
             output.push(staff);
@@ -142,20 +141,18 @@ const employeePrompt = () => {
         .prompt(employeeQuestions)
         .then(answers => {
 
-            output.push(answers);
-
             // get engineer info
             if (answers.addmember === 'Engineer') {
                 inquirer
                     .prompt(engineerQuestion)
                     .then(response => {
-                        const engineerStaff = new Engineer(answers.name, answers.email, answers.id, answers.role, response.github);
+                        const engineerStaff = new Engineer(answers.fname, answers.email, answers.id, 'Engineer', response.github);
                         
                         output.push(engineerStaff);
-                    });
                 
-                // add another team member
-                addStaff();
+                        // add another team member
+                        addStaff();
+                    });
             }
 
             // get engineer info
@@ -163,13 +160,13 @@ const employeePrompt = () => {
                 inquirer
                     .prompt(internQuestion)
                     .then(response => {
-                        const internStaff = new Intern(answers.name, answers.email, answers.id, answers.role, response.school);
+                        const internStaff = new Intern(answers.name, answers.email, answers.id, 'Intern', response.school);
 
                         output.push(internStaff);
-                    });
                 
-                // add another team member
-                addStaff();
+                        // add another team member
+                        addStaff();
+                    });
             }
         });
 }
@@ -186,19 +183,19 @@ const addStaff = () => {
             },  
         ]).then(answer => {
             if (answer.plusone === true) {
+
                 // loop employee questions
                 employeePrompt();
-
              } else {                
+                //console.log(output);
 
-                // collected data stored in array
-                const employeeContent = templateBuilder(output);
-
+                //collected data stored in array
+                const employeeContent = templateBuilder(JSON.stringify(output));
+                console.log(employeeContent);
                 writeToFile('./dist/index.html', employeeContent);  
              }
         });
 }
 
-
-
+// fire up app
 init();
