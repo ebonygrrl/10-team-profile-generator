@@ -17,7 +17,7 @@ const fs = require('fs');
 const output = [];
 
 // array for user input
-const managerQuestions = [
+const questions = [
     {
         type: 'input',
         name: 'fname',
@@ -162,24 +162,36 @@ const writeToFile = htmlData => {
 const init = () => {
         
     // init first series of questions
-    managerPrompt();
+    //managerPrompt();
+    inquirer.prompt(questions).then((answers) => {
+        console.log('answers ' + answers);
+    });
 }
 
 // get manager questions
-const managerPrompt = () => {
-    inquirer
-        .prompt(managerQuestions)
-        .then(answers => {
-
-            const staff = new Manager (answers.fname, answers.id, answers.email, 'Manager', answers.office);
+function managerPrompt() {
+    
+    inquirer.prompt(questions).then((answers) => {
+            console.log('answers ' + answers);
+            //const staff = new Manager(answers.fname, answers.id, answers.email, 'Manager', answers.office);
 
             // add responses to empty array
-            output.push(staff);
+            //output.push(staff);
+            //console.log('push staff ' + output);
 
             // build rest of team
-            employeePrompt();  
+            //employeePrompt();  
 
             //console.log(`manager output: ${output}`);  
+
+
+
+            //collected data stored in output array
+            //const htmlData = templateBuilder(output);
+            //console.log('html data ' + htmlData);
+            //console.log('template builder ' + templateBuilder(output));
+                            // handle writing html file
+                            //writeToFile(htmlData); 
         });  
 } 
 
@@ -214,13 +226,16 @@ const employeePrompt = () => {
                     });
             } else {
 
-                output.push(answers);
+                //output.push(answers);
+                
+                console.log(`manager output: ${output[0].fname}`);
                 
                 //collected data stored in output array
                 const htmlData = templateBuilder(output);
-
+                console.log(htmlData);
+                console.log(templateBuilder(output));
                 // handle writing html file
-                writeToFile(htmlData);
+                //writeToFile(htmlData);
             }
 
             //console.log(`employee output: ${JSON.stringify(output)}`);
@@ -248,9 +263,10 @@ const addStaff = () => {
                 
                 //collected data stored in output array
                 const htmlData = templateBuilder(output);
-
+console.log(htmlData);
+console.log(templateBuilder(output));
                 // handle writing html file
-                writeToFile(htmlData); 
+                //writeToFile(htmlData); 
              }
         });
 }
