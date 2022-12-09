@@ -8,15 +8,16 @@ const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 
 // module.export
-const templateBuilder = require('./src/templateBuilder.js');
+const templateBuilder = require('./src/templateBuilder');
 
 // create file package
 const fs = require('fs');
 
+// store collected data
 const output = [];
 
 // array for user input
-const questions = [
+const managerQuestions = [
     {
         type: 'input',
         name: 'fname',
@@ -25,13 +26,19 @@ const questions = [
              if (/^[A-Z][a-z]+$/g.test(input)) {
                  return true;
              }
-             throw Error('Please enter first name only.');
+             throw Error('Please be sure name is capitalized and enter first name only.');
         },
     }, 
     {
         type: 'number',
         name: 'id',
-        message: 'Please enter team manager\'s employee ID.'
+        message: 'Please enter team manager\'s employee ID.',
+        validate(input) {
+            if (/^\d+$/g.test(input)) {
+                return true;
+            }
+            throw Error('Please enter numbers only.');
+        },
     },
     {
         type: 'input',
@@ -47,28 +54,49 @@ const questions = [
     {
         type: 'number',
         name: 'office',
-        message: 'Please enter team manager\'s office number.',        
-    },
+        message: 'Please enter team manager\'s office number.',
+        validate(input) {
+            if (/^\d+$/g.test(input)) {
+                return true;
+            }
+            throw Error('Please enter numbers only.');
+        },        
+    }, 
+];
+
+const employeeQuestions = [
     {
         type: 'list',
         name: 'addmember',
-        message: 'Adding more team members? Please select employee\'s role.',
+        message: 'Please select role to add another team member.',
         choices: ['Engineer', 'Intern', new inquirer.Separator(), 'Finish building team'],
-    },   
+    },
     {
         type: 'input',
-        name: 'e_fname',
+        name: 'fname',
         message: 'Please enter employee\'s first name.',
+        validate(input) {
+             if (/^[A-Z][a-z]+$/g.test(input)) {
+                 return true;
+             }
+             throw Error('Please be sure name is capitalized and enter first name only.');
+        },
         when(answers) { 
             if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
                 return true;
             }        
         },
-    }, 
+    },  
     {
         type: 'number',
-        name: 'e_id',
+        name: 'id',
         message: 'Please enter employee\'s ID.',
+        validate(input) {
+            if (/^\d+$/g.test(input)) {
+                return true;
+            }
+            throw Error('Please enter numbers only.');
+        },
         when(answers) { 
             if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
                 return true;
@@ -77,14 +105,23 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'e_email',
+        name: 'email',
         message: 'Please enter employee\'s email address.',
+        validate(input) {
+             if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(input)) {
+                 return true;
+             }
+             throw Error('Please provide a valid email address.');
+        },
         when(answers) { 
             if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
                 return true;
             }        
         },
     },
+];
+
+const engineerQuestion = [
     {
         type: 'input',
         name: 'github',
@@ -95,12 +132,10 @@ const questions = [
              }
              throw Error('No spaces permitted and must have at least four characters.');
         },
-        when(answers) { 
-            if(answers['addmember'] === 'Engineer') {
-                return true;
-            }        
-        },
     },
+];
+
+const internQuestion = [
     {
         type: 'input',
         name: 'school',
@@ -111,75 +146,114 @@ const questions = [
              }
              throw Error('No numbers or special characters permitted.');
         },
-        when(answers) { 
-            if(answers['addmember'] === 'Intern') {
-                return true;
-            }        
-        },
     },
-    {
-        type: 'confirm',
-        name: 'plusone',
-        message: 'Do you want to add another team member?',
-        default: true,
-        when(answers) { 
-            if(answers['addmember'] === 'Engineer' || answers['addmember'] === 'Intern') {
-                return true;
-            }        
-        },
-    },   
 ];
 
 // write the file
-const writeToFile = (file, data) => {
-    fs.writeFile(file, data, (err) => {
-        let title = data.addmember;
-        let staff = '';
+const writeToFile = htmlData => {
 
-        if (title === 'Engineer') {
-            staff = new Engineer(data.fname, data.id, data.email, data.github);
-        } else if (title === 'Intern') {
-            staff = new Intern(data.fname, data.id, data.email, data.school);
-        } else {
-            staff = new Manager(data.fname, data.id, data.email, data.office);
-        } 
-        
-        staff.getName();
-        staff.getId();
-        staff.Email();
-        staff.getOfficeNum();
-        staff.getGithub();
-        staff.getRole();
+    fs.writeFile('./dist/index.html', htmlData, (err) => {
 
         err ? console.log(err) : console.log('Successfully created index.html!');
     });
 }
 
-
-//let loopInit = [...new Map(questions.map((item) => [item['name'], item])).values()]; 
-
 // initialize app
-const init = () => {    
-    //console.log(loopInit);
-    inquirer
-        .prompt(questions)
-        .then((answers) => {
-            console.log(answers);
-            //let index = (name, questions) => questions.find(val => val.name === name);
-            //console.log(`console: ${index}`);
-            // output.push(answers.e_fname);
-            // if (answers.plusone === 'yes') {
-            //     return inquirer.prompt(loopInit); 
-            // } else {
-            //     console.log(output);
-            // }
-            // data
-            // const employeeContent = templateBuilder(answers);
+const init = () => {
+        
+    // init first series of questions
+    managerPrompt();
+}
 
-            // writeToFile('./dist/index.html', employeeContent);            
+// get manager questions
+const managerPrompt = () => {
+    inquirer
+        .prompt(managerQuestions)
+        .then(answers => {
+
+            const staff = new Manager (answers.fname, answers.id, answers.email, 'Manager', answers.office);
+
+            // add responses to empty array
+            output.push(staff);
+
+            // build rest of team
+            employeePrompt();  
+
+            //console.log(`manager output: ${output}`);  
+        });  
+} 
+
+// get add employee questions
+const employeePrompt = () => {
+    inquirer
+        .prompt(employeeQuestions)
+        .then(answers => {
+
+            // get engineer info
+            if (answers.addmember === 'Engineer') {
+                inquirer
+                    .prompt(engineerQuestion)
+                    .then(response => {
+                        const engineerStaff = new Engineer(answers.fname, answers.id, answers.email, 'Engineer', response.github);
+                        
+                        output.push(engineerStaff);
+                
+                        // add another team member
+                        addStaff();
+                    });
+            } else if (answers.addmember === 'Intern') {
+                inquirer
+                    .prompt(internQuestion)
+                    .then(response => {
+                        const internStaff = new Intern(answers.name, answers.id, answers.email, 'Intern', response.school);
+
+                        output.push(internStaff);
+                
+                        // add another team member
+                        addStaff();
+                    });
+            } else {
+
+                output.push(answers);
+                
+                //collected data stored in output array
+                const htmlData = templateBuilder(output);
+
+                // handle writing html file
+                writeToFile(htmlData);
+            }
+
+            //console.log(`employee output: ${JSON.stringify(output)}`);
         });
 }
 
+// add another team member to cause loop
+const addStaff = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'confirm',
+                name: 'plusone',
+                message: 'Do you want to add another team member?',
+                default: true,
+            },  
+        ]).then(answer => {
+            if (answer.plusone === true) {
 
+                // loop employee questions
+                employeePrompt();
+             } else { 
 
+                output.push(answer);
+                
+                //collected data stored in output array
+                const htmlData = templateBuilder(output);
+
+                // handle writing html file
+                writeToFile(htmlData); 
+             }
+        });
+}
+
+// fire up app
 init();
