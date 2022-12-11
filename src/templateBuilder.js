@@ -44,9 +44,7 @@ const footer = () => {
 
 // get data from output array (index.js)
 
-const templateBuilder = data => {
-    // get header elements
-    header();
+const employeeCard = data => {
 
     // build employee cards         
     let cardContainer = `
@@ -55,30 +53,43 @@ const templateBuilder = data => {
 
     for (let i=0; i < data.length; i++) {
         
-        cardContainer += `<div>${data[i].getName}</div>
-                        <div>${icons(data[i].getRole)}</div>`;
-        cardContainer += `</div><div class="employee-details">`;
-        cardContainer += `<div>${data[i].getId}</div>
-                        <div>${data[i].getEmail}</div>`;
+        cardContainer += `<div>${data[i].getName()}</div>`
+        //                   <div>${icons(data[i].getRole())}</div>`;
+        // cardContainer += `</div>
+        //                   <div class="employee-details">`;
+        // cardContainer += `<div>${data[i].getId()}</div>
+        //                   <div>${data[i].getEmail()}</div>`;
 
-        if (data[i].getRole === 'Manager') {
+        // if (data[i].getRole === 'Manager') {
 
-            cardContainer += `<div>${data[i].getOfficeNum}</div>`;
+        //     cardContainer += `<div>${data[i].getOfficeNum()}</div>`;
 
-        } else if (data[i].getRole === 'Engineer') {
+        // } else if (data[i].getRole === 'Engineer') {
 
-            cardContainer += `<div>${data[i].getGithub}</div>`;
+        //     cardContainer += `<div>${data[i].getGithub()}</div>`;
 
-        } else if (data[i].getRole === 'Intern') {
+        // } else if (data[i].getRole === 'Intern') {
 
-            cardContainer += `<div>${data[i].getSchool}</div>`;
-        }
+        //     cardContainer += `<div>${data[i].getSchool()}</div>`;
+        // }
     }
 
     cardContainer += `</div></div>`;
 
+    return cardContainer;
+}
+
+const templateBuilder = data => {
+    console.log(`template: ${employeeCard(data)}`);
+    
+    // get header elements
+    //header();
+
+    // get employee cards
+    //employeeCard(data);
+
     // get footer elements
-    footer();
+    //footer();
 }
 
 // export template

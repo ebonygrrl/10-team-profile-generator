@@ -5,9 +5,8 @@ describe('Engineer class', () => {
         const name = "Tori";
         const id = 1;
         const email = 'email@email.com';
-        const role = 'Engineer';
         const github = 'ebonygrrl';
-        const staff = new Engineer('Tori',1,'email@email.com','Engineer','ebonygrrl');
+        const staff = new Engineer('Tori',1,'email@email.com','ebonygrrl');
         
         expect(name).toEqual(staff.name);
         expect(id).toEqual(staff.id);
@@ -33,6 +32,14 @@ describe('Engineer class', () => {
             const staff = new Engineer('Tori',1,'email@emailcom','Engineer','');
 
             expect(staff.getGithub()).toBe(false);
+        });
+    });
+
+    describe('getRole', () => {
+        it('returns employee role if valid', () => {
+            const role = 'Engineer';
+
+            expect(staff.getRole()).toBe(role);
         });
     });
 

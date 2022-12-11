@@ -5,14 +5,12 @@ describe('Manager class', () => {
         const name = "Tori";
         const id = 1;
         const email = 'email@email.com';
-        const role = 'Manager';
         const office = 482;
-        const staff = new Manager('Tori',1,'email@email.com','Manager',482);
+        const staff = new Manager('Tori',1,'email@email.com',482);
         
         expect(name).toEqual(staff.name);
         expect(id).toEqual(staff.id);
         expect(email).toEqual(staff.email); 
-        expect(role).toEqual(staff.role);  
         expect(office).toEqual(staff.office);      
     });
 
@@ -22,6 +20,14 @@ describe('Manager class', () => {
             const staff = new Manager('Tori',1,'email@email.com','Manager',482);
 
             expect(staff.getOfficeNum()).toBe(office);
+        });
+    });
+
+    describe('getRole', () => {
+        it('returns employee role if valid', () => {
+            const role = 'Manager';
+
+            expect(staff.getRole()).toBe(role);
         });
     });
 

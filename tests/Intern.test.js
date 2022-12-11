@@ -5,9 +5,8 @@ describe('Intern class', () => {
         const name = "Tori";
         const id = 1;
         const email = 'email@email.com';
-        const role = 'Intern';
         const school = 'SIU';
-        const staff = new Intern('Tori',1,'email@email.com','Intern','SIU');
+        const staff = new Intern('Tori',1,'email@email.com','SIU');
         
         expect(name).toEqual(staff.name);
         expect(id).toEqual(staff.id);
@@ -22,6 +21,14 @@ describe('Intern class', () => {
             const staff = new Intern('Tori',1,'email@email.com','Intern','SIU');
 
             expect(staff.getSchool()).toBe(school);
+        });
+    });
+
+    describe('getRole', () => {
+        it('returns employee role if valid', () => {
+            const role = 'Intern';
+
+            expect(staff.getRole()).toBe(role);
         });
     });
 
