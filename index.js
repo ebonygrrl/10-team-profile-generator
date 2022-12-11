@@ -28,39 +28,39 @@ const managerQuestions = [
              throw Error('Please be sure name is capitalized and enter first name only.');
         },
     }, 
-    // {
-    //     type: 'number',
-    //     name: 'id',
-    //     message: 'Please enter team manager\'s employee ID.',
-    //     validate(input) {
-    //         if (/^\d+$/g.test(input)) {
-    //             return true;
-    //         }
-    //         throw Error('Please enter numbers only.');
-    //     },
-    // },
-    // {
-    //     type: 'input',
-    //     name: 'email',
-    //     message: 'Please enter team manager\'s email address.',
-    //     validate(input) {
-    //          if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(input)) {
-    //              return true;
-    //          }
-    //          throw Error('Please provide a valid email address.');
-    //     },
-    // },
-    // {
-    //     type: 'number',
-    //     name: 'office',
-    //     message: 'Please enter team manager\'s office number.',
-    //     validate(input) {
-    //         if (/^\d+$/g.test(input)) {
-    //             return true;
-    //         }
-    //         throw Error('Please enter numbers only.');
-    //     },        
-    // }, 
+    {
+        type: 'input',
+        name: 'id',
+        message: 'Please enter team manager\'s employee ID.',
+        validate(input) {
+            if (/^\d+$/g.test(input)) {
+                return true;
+            }
+            throw Error('Please enter numbers only.');
+        },
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Please enter team manager\'s email address.',
+        validate(input) {
+             if (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/g.test(input)) {
+                 return true;
+             }
+             throw Error('Please provide a valid email address.');
+        },
+    },
+    {
+        type: 'input',
+        name: 'office',
+        message: 'Please enter team manager\'s office number.',
+        validate(input) {
+            if (/^\d+$/g.test(input)) {
+                return true;
+            }
+            throw Error('Please enter numbers only.');
+        },        
+    }, 
 ];
 
 const employeeQuestions = [
@@ -150,11 +150,11 @@ const internQuestion = [
 
 // write the file
 const writeToFile = data => {
+    console.log('------ ' + data);
+    //fs.writeFile('./dist/index.html', data, (err) => {
 
-    fs.writeFile('./dist/index.html', data, (err) => {
-
-        err ? console.log(err) : console.log('Successfully created index.html!');
-    });
+        //err ? console.log(err) : console.log('Successfully created index.html!');
+    //});
 }
 
 // initialize app
@@ -170,29 +170,19 @@ const managerPrompt = () => {
     inquirer
         .prompt(managerQuestions)
         .then(answers => { 
-            //console.log(answers);
             const staff = new Manager(answers.fname, answers.id, answers.email, answers.office);
 
             //add responses to empty array
             output.push(staff);
 
-            console.log(`push staff-->
-            JSON output: ${JSON.stringify(output)}
-            staff: ${JSON.stringify(staff)}`); //--> without stringify console returns [object Object]
-
             //build rest of team
-            //employeePrompt();
-
-
-
-
-
+            employeePrompt();
                         
                 //send collected data stored in output array to templateBuilder.js
-                const htmlData = templateBuilder(output);
+                //const exportData = templateBuilder(...output);
                 
                 //handle writing html file 
-                writeToFile(htmlData);
+                //writeToFile(exportData);
         });  
 } 
 
@@ -229,10 +219,10 @@ const employeePrompt = () => {
                     });
             } else {                
                 //send collected data stored in output array to templateBuilder.js
-                const htmlData = templateBuilder(output);
+                const exportData = templateBuilder(...output);
                 
                 //handle writing html file 
-                writeToFile(htmlData);
+                writeToFile(exportData);
             }
         });
 }
@@ -254,11 +244,11 @@ const addStaff = () => {
                 employeePrompt();
              } else {
                 
-                //collected data stored in output array
-                const htmlData = templateBuilder(output);
-
-                // handle writing html file
-                writeToFile(htmlData); 
+                //send collected data stored in output array to templateBuilder.js
+                const exportData = templateBuilder(...output);
+                
+                //handle writing html file 
+                writeToFile(exportData);
              }
         });
 }

@@ -1,5 +1,5 @@
 // generate icons
-const icons = (role) => {
+const icons = role => {
     let icon = '';
 
     if (role === 'Engineer') {
@@ -42,54 +42,55 @@ const footer = () => {
 </html>`;
 }
 
-// get data from output array (index.js)
+// get info from inquirer
+const templateBuilder = data => {
+    
+    // get header elements
+    header();
 
-const employeeCard = data => {
+    // build employee cards    
+    let staff = '';
 
-    // build employee cards         
     let cardContainer = `
             <div class="employee-block col-lg-2 col-md-6 col-sm-12">
             <div class="employee-header">`;
 
     for (let i=0; i < data.length; i++) {
+        // store each iteration in variable
+        staff = data[i];
+
+        cardContainer = `
+            <div class="employee-block col-lg-2 col-md-6 col-sm-12">
+            <div class="employee-header">`;
         
-        cardContainer += `<div>${data[i].getName()}</div>`
-        //                   <div>${icons(data[i].getRole())}</div>`;
-        // cardContainer += `</div>
-        //                   <div class="employee-details">`;
-        // cardContainer += `<div>${data[i].getId()}</div>
-        //                   <div>${data[i].getEmail()}</div>`;
+        cardContainer += `<h2>${staff.getName()}</h2>
+                          <h3>${icons(staff.getRole())}</h3>`;
+        cardContainer += `</div>
+                          <div class="employee-details">`;
+        cardContainer += `<div>${staff.getId()}</div>
+                          <div><a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
+        
+        let position = staff.getRole();
 
-        // if (data[i].getRole === 'Manager') {
+        switch(position) {
+            case 'Manager':
+                cardContainer += `<div>${staff.getOfficeNum()}</div>`;
+                break;
 
-        //     cardContainer += `<div>${data[i].getOfficeNum()}</div>`;
+            case 'Engineer':
+                cardContainer += `<div>${staff.getGithub()}</div>`;
+                break;
 
-        // } else if (data[i].getRole === 'Engineer') {
+            case 'Intern':
+                cardContainer += `<div>${staff.getSchool()}</div>`;
+                break;
+        }
 
-        //     cardContainer += `<div>${data[i].getGithub()}</div>`;
-
-        // } else if (data[i].getRole === 'Intern') {
-
-        //     cardContainer += `<div>${data[i].getSchool()}</div>`;
-        // }
+        cardContainer += `</div></div>`;
     }
 
-    cardContainer += `</div></div>`;
-
-    return cardContainer;
-}
-
-const templateBuilder = data => {
-    console.log(`template: ${employeeCard(data)}`);
-    
-    // get header elements
-    //header();
-
-    // get employee cards
-    //employeeCard(data);
-
     // get footer elements
-    //footer();
+    footer();
 }
 
 // export template
