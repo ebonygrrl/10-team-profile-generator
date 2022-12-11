@@ -1,5 +1,4 @@
 // get classes
-const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
@@ -17,7 +16,7 @@ const fs = require('fs');
 const output = [];
 
 // array for user input
-const questions = [
+const managerQuestions = [
     {
         type: 'input',
         name: 'fname',
@@ -162,36 +161,24 @@ const writeToFile = htmlData => {
 const init = () => {
         
     // init first series of questions
-    //managerPrompt();
-    inquirer.prompt(questions).then((answers) => {
-        console.log('answers ' + answers);
-    });
+    managerPrompt();
 }
 
 // get manager questions
-function managerPrompt() {
+const managerPrompt = () => {
     
-    inquirer.prompt(questions).then((answers) => {
-            console.log('answers ' + answers);
-            //const staff = new Manager(answers.fname, answers.id, answers.email, 'Manager', answers.office);
+    inquirer
+        .prompt(managerQuestions)
+        .then(answers => { 
+            console.log(answers);
+            const staff = new Manager(answers.fname, answers.id, answers.email, 'Manager', answers.office);
 
-            // add responses to empty array
-            //output.push(staff);
-            //console.log('push staff ' + output);
+            //add responses to empty array
+            output.push(staff);
+            //console.log('push staff ' + JSON.stringify(output)); --> without stringify console returns [object Object]
 
-            // build rest of team
-            //employeePrompt();  
-
-            //console.log(`manager output: ${output}`);  
-
-
-
-            //collected data stored in output array
-            //const htmlData = templateBuilder(output);
-            //console.log('html data ' + htmlData);
-            //console.log('template builder ' + templateBuilder(output));
-                            // handle writing html file
-                            //writeToFile(htmlData); 
+            //build rest of team
+            employeePrompt();
         });  
 } 
 
@@ -209,7 +196,8 @@ const employeePrompt = () => {
                         const engineerStaff = new Engineer(answers.fname, answers.id, answers.email, 'Engineer', response.github);
                         
                         output.push(engineerStaff);
-                
+                        //console.log('push engineerStaff ' + JSON.stringify(output));
+
                         // add another team member
                         addStaff();
                     });
@@ -220,25 +208,18 @@ const employeePrompt = () => {
                         const internStaff = new Intern(answers.name, answers.id, answers.email, 'Intern', response.school);
 
                         output.push(internStaff);
+                        //console.log('push internStaff ' + JSON.stringify(output));
                 
                         // add another team member
                         addStaff();
                     });
-            } else {
-
-                //output.push(answers);
-                
-                console.log(`manager output: ${output[0].fname}`);
-                
-                //collected data stored in output array
+            } else {                
+                //send collected data stored in output array to templateBuilder.js
                 const htmlData = templateBuilder(output);
-                console.log(htmlData);
-                console.log(templateBuilder(output));
-                // handle writing html file
-                //writeToFile(htmlData);
-            }
 
-            //console.log(`employee output: ${JSON.stringify(output)}`);
+                //handle writing html file 
+                writeToFile(htmlData);
+            }
         });
 }
 
@@ -253,20 +234,17 @@ const addStaff = () => {
                 default: true,
             },  
         ]).then(answer => {
-            if (answer.plusone === true) {
+            if (answer.plusone) { //truthy
 
                 // loop employee questions
                 employeePrompt();
-             } else { 
-
-                output.push(answer);
+             } else {
                 
                 //collected data stored in output array
                 const htmlData = templateBuilder(output);
-console.log(htmlData);
-console.log(templateBuilder(output));
+
                 // handle writing html file
-                //writeToFile(htmlData); 
+                writeToFile(htmlData); 
              }
         });
 }
