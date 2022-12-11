@@ -42,55 +42,54 @@ const footer = () => {
 </html>`;
 }
 
-// get info from inquirer
-const templateBuilder = data => {
-    
-    // get header elements
-    header();
-
-    // build employee cards    
-    let staff = '';
-
-    let cardContainer = `
-            <div class="employee-block col-lg-2 col-md-6 col-sm-12">
-            <div class="employee-header">`;
+const employeeCard = data => {
+    // build employee cards   
+    let card = '';
 
     for (let i=0; i < data.length; i++) {
-        // store each iteration in variable
-        staff = data[i];
+        // store iteration to variable
+        let staff = data[i];
 
-        cardContainer = `
+        card += `
             <div class="employee-block col-lg-2 col-md-6 col-sm-12">
             <div class="employee-header">`;
         
-        cardContainer += `<h2>${staff.getName()}</h2>
+        card += `<h2>${staff.getName()}</h2>
                           <h3>${icons(staff.getRole())}</h3>`;
-        cardContainer += `</div>
+        card += `</div>
                           <div class="employee-details">`;
-        cardContainer += `<div>${staff.getId()}</div>
+        card += `<div>${staff.getId()}</div>
                           <div><a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
         
         let position = staff.getRole();
 
         switch(position) {
             case 'Manager':
-                cardContainer += `<div>${staff.getOfficeNum()}</div>`;
+                card += `<div>${staff.getOfficeNum()}</div>`;
                 break;
 
             case 'Engineer':
-                cardContainer += `<div>${staff.getGithub()}</div>`;
+                card += `<div>${staff.getGithub()}</div>`;
                 break;
 
             case 'Intern':
-                cardContainer += `<div>${staff.getSchool()}</div>`;
+                card += `<div>${staff.getSchool()}</div>`;
                 break;
         }
 
-        cardContainer += `</div></div>`;
+        card += `</div></div>`;
     }
 
-    // get footer elements
-    footer();
+    return card;
+}
+
+// get info from inquirer
+const templateBuilder = data => {
+    let container = `${header()}    
+    ${employeeCard(data)}    
+    ${footer()}`;
+
+    return container;
 }
 
 // export template

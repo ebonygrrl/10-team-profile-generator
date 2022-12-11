@@ -150,11 +150,10 @@ const internQuestion = [
 
 // write the file
 const writeToFile = data => {
-    console.log('------ ' + data);
-    //fs.writeFile('./dist/index.html', data, (err) => {
+    fs.writeFile('./dist/index.html', data, (err) => {
 
-        //err ? console.log(err) : console.log('Successfully created index.html!');
-    //});
+        err ? console.log(err) : console.log('Successfully created index.html and it can be found in "dist" directory!');
+    });
 }
 
 // initialize app
@@ -177,12 +176,6 @@ const managerPrompt = () => {
 
             //build rest of team
             employeePrompt();
-                        
-                //send collected data stored in output array to templateBuilder.js
-                //const exportData = templateBuilder(...output);
-                
-                //handle writing html file 
-                //writeToFile(exportData);
         });  
 } 
 
@@ -219,7 +212,7 @@ const employeePrompt = () => {
                     });
             } else {                
                 //send collected data stored in output array to templateBuilder.js
-                const exportData = templateBuilder(...output);
+                const exportData = templateBuilder(output);
                 
                 //handle writing html file 
                 writeToFile(exportData);
@@ -245,7 +238,7 @@ const addStaff = () => {
              } else {
                 
                 //send collected data stored in output array to templateBuilder.js
-                const exportData = templateBuilder(...output);
+                const exportData = templateBuilder(output);
                 
                 //handle writing html file 
                 writeToFile(exportData);
