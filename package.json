@@ -88,7 +88,7 @@
     "imurmurhash": "^0.1.4",
     "inflight": "^1.0.6",
     "inherits": "^2.0.4",
-    "inquirer": "^8.2.4",
+    "inquirer": "^8.2.5",
     "is-arrayish": "^0.2.1",
     "is-core-module": "^2.11.0",
     "is-fullwidth-code-point": "^3.0.0",
@@ -234,10 +234,11 @@
     "type": "git",
     "url": "git+https://github.com/ebonygrrl/10-team-profile-generator.git"
   },
-  "author": "",
+  "author": "Tori Booker",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ebonygrrl/10-team-profile-generator/issues"
   },
-  "homepage": "https://github.com/ebonygrrl/10-team-profile-generator#readme"
+  "homepage": "https://github.com/ebonygrrl/10-team-profile-generator#readme",
+  "keywords": []
 }
