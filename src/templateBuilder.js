@@ -22,15 +22,15 @@ const header = () => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap-grid.min.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-        <link rel="stylesheet" href="./assets/css/normalize.css" />
-        <link rel="stylesheet" href="./assets/css/style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+        <link rel="stylesheet" href="./css/normalize.css" />
+        <link rel="stylesheet" href="./css/style.css" />
         <title>My Team</title>
     </head>
     <body>
         <header><h1>My Team</h1></header>
         <div class="container">
-        <main>`;
+        <main class="row">`;
 }
 
 // generate footer for index.html
@@ -51,15 +51,15 @@ const employeeCard = data => {
         let staff = data[i];
 
         card += `
-            <div class="employee-block col-lg-2 col-md-6 col-sm-12">
+            <div class="employee-block col-lg-4 col-md-6 col-sm-12">
             <div class="employee-header">`;
         
         card += `<h2>${staff.getName()}</h2>
-                          <h3>${icons(staff.getRole())}</h3>`;
+                <h3>${icons(staff.getRole())}</h3>`;
         card += `</div>
-                          <div class="employee-details">`;
+                <div class="employee-details">`;
         card += `<div>${staff.getId()}</div>
-                          <div><a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
+                <div><a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
         
         let position = staff.getRole();
 
@@ -69,7 +69,7 @@ const employeeCard = data => {
                 break;
 
             case 'Engineer':
-                card += `<div>${staff.getGithub()}</div>`;
+                card += `<div><a href="https://github.com/${staff.getGithub()}">Github</a></div>`;
                 break;
 
             case 'Intern':

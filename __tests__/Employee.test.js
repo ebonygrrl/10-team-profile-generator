@@ -2,54 +2,47 @@ const Employee = require('../lib/Employee');
 
 describe('Employee class', () => {
     it('should output employee information', () => {
-        const name = "Tori";
-        const id = 1;
-        const email = 'email@email.com';
         const staff = new Employee('Tori',1,'email@email.com');
         
-        expect(staff.name).toEqual(name);
-        expect(staff.id).toEqual(id);
-        expect(staff.email).toEqual(email);     
+        expect(staff.name).toEqual('Tori');
+        expect(staff.id).toEqual(1);
+        expect(staff.email).toEqual('email@email.com');     
     });
 
     describe('getName', () => {
         it('returns employee\'s first name', () => {
-            const name = "Tori";
             const staff = new Employee('Tori',1,'email@email.com');
 
-            expect(staff.getName()).toBe(name);
+            expect(staff.getName()).toBe('Tori');
         });
         it('returns employee\'s first name and capitalized', () => {
-            const name = "Tori";
             const staff = new Employee('tori booker',1,'email@email.com');
 
-            expect(staff.getName()).toBe(name);
+            expect(staff.getName()).toBe('Tori');
         });
     });
 
     describe('getId', () => {
         it('returns true if number', () => {
-            const id = 55;
             const staff = new Employee('Tori',55,'email@email.com');
 
-            expect(staff.getId()).toBe(id);
+            expect(staff.getId()).toBe(55);
         });
     });
 
     describe('getEmail', () => {
         it('returns email address if email is valid', () => {
-            const email = 'abooker77@yahoo.com';
-            const staff = new Employee('Tori',1,'abooker77@yahoo.com');
+            const staff = new Employee('Tori',1,'tori@usa.com');
 
-            expect(staff.getEmail()).toBe(email);
+            expect(staff.getEmail()).toBe('tori@usa.com');
         });
     });
 
     describe('getRole', () => {
         it('returns Employee role if valid', () => {
-            const role = 'Employee';
+            const staff = new Employee('Tori',1,'tori@usa.com');
 
-            expect(staff.getRole()).toBe(role);
+            expect(staff.getRole()).toBe('Employee');
         });
     });
 
