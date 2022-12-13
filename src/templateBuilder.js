@@ -57,27 +57,30 @@ const employeeCard = data => {
         card += `<h2>${staff.getName()}</h2>
                 <h3>${icons(staff.getRole())}</h3>`;
         card += `</div>
-                <div class="employee-details">`;
-        card += `<div>${staff.getId()}</div>
-                <div><a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
+                <div class="employee-details-wrap">
+                     <div class="employee-details">`;
+        card += `<div>ID: ${staff.getId()}</div>
+                <div>Email: <a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
         
         let position = staff.getRole();
 
         switch(position) {
             case 'Manager':
-                card += `<div>${staff.getOfficeNum()}</div>`;
+                card += `<div>Office number: ${staff.getOfficeNum()}</div>`;
                 break;
 
             case 'Engineer':
-                card += `<div><a href="https://github.com/${staff.getGithub()}">Github</a></div>`;
+                card += `<div>Github:<a href="https://github.com/${staff.getGithub()}">${staff.getGithub()}</a></div>`;
                 break;
 
             case 'Intern':
-                card += `<div>${staff.getSchool()}</div>`;
+                card += `<div>School: ${staff.getSchool()}</div>`;
                 break;
         }
 
-        card += `</div></div>`;
+        card += `</div>
+             </div>
+        </div>`;
     }
 
     return card;
