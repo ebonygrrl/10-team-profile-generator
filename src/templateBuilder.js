@@ -1,5 +1,5 @@
 // generate icons
-const icons = (role) => {
+const icons = role => {
     let icon = '';
 
     if (role === 'Engineer') {
@@ -22,15 +22,15 @@ const header = () => {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.2/css/bootstrap-grid.min.css" />
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-        <link rel="stylesheet" href="./assets/css/normalize.css" />
-        <link rel="stylesheet" href="./assets/css/style.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+        <link rel="stylesheet" href="./css/normalize.css" />
+        <link rel="stylesheet" href="./css/style.css" />
         <title>My Team</title>
     </head>
     <body>
         <header><h1>My Team</h1></header>
         <div class="container">
-        <main>`;
+        <main class="row">`;
 }
 
 // generate footer for index.html
@@ -42,43 +42,57 @@ const footer = () => {
 </html>`;
 }
 
-// get data from output array (index.js)
-
-const templateBuilder = data => {
-    // get header elements
-    header();
-
-    // build employee cards         
-    let cardContainer = `
-            <div class="employee-block col-lg-2 col-md-6 col-sm-12">
-            <div class="employee-header">`;
+const employeeCard = data => {
+    // build employee cards   
+    let card = '';
 
     for (let i=0; i < data.length; i++) {
+        // store iteration to variable
+        let staff = data[i];
+
+        card += `
+            <div class="employee-block col-lg-4 col-md-6 col-sm-12">
+            <div class="employee-header">`;
         
-        cardContainer += `<div>${data[i].getName}</div>
-                        <div>${icons(data[i].getRole)}</div>`;
-        cardContainer += `</div><div class="employee-details">`;
-        cardContainer += `<div>${data[i].getId}</div>
-                        <div>${data[i].getEmail}</div>`;
+        card += `<h2>${staff.getName()}</h2>
+                <h3>${icons(staff.getRole())}</h3>`;
+        card += `</div>
+                <div class="employee-details-wrap">
+                     <div class="employee-details">`;
+        card += `<div>ID: ${staff.getId()}</div>
+                <div>Email: <a href="mailto:${staff.getEmail()}">${staff.getEmail()}</a></div>`;
+        
+        let position = staff.getRole();
 
-        if (data[i].getRole === 'Manager') {
+        switch(position) {
+            case 'Manager':
+                card += `<div>Office number: ${staff.getOfficeNum()}</div>`;
+                break;
 
-            cardContainer += `<div>${data[i].getOfficeNum}</div>`;
+            case 'Engineer':
+                card += `<div>Github:<a href="https://github.com/${staff.getGithub()}">${staff.getGithub()}</a></div>`;
+                break;
 
-        } else if (data[i].getRole === 'Engineer') {
-
-            cardContainer += `<div>${data[i].getGithub}</div>`;
-
-        } else if (data[i].getRole === 'Intern') {
-
-            cardContainer += `<div>${data[i].getSchool}</div>`;
+            case 'Intern':
+                card += `<div>School: ${staff.getSchool()}</div>`;
+                break;
         }
+
+        card += `</div>
+             </div>
+        </div>`;
     }
 
-    cardContainer += `</div></div>`;
+    return card;
+}
 
-    // get footer elements
-    footer();
+// get info from inquirer
+const templateBuilder = data => {
+    let container = `${header()}    
+    ${employeeCard(data)}    
+    ${footer()}`;
+
+    return container;
 }
 
 // export template

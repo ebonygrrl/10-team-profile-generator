@@ -29,7 +29,7 @@ const managerQuestions = [
         },
     }, 
     {
-        type: 'number',
+        type: 'input',
         name: 'id',
         message: 'Please enter team manager\'s employee ID.',
         validate(input) {
@@ -51,7 +51,7 @@ const managerQuestions = [
         },
     },
     {
-        type: 'number',
+        type: 'input',
         name: 'office',
         message: 'Please enter team manager\'s office number.',
         validate(input) {
@@ -149,11 +149,10 @@ const internQuestion = [
 ];
 
 // write the file
-const writeToFile = htmlData => {
+const writeToFile = data => {
+    fs.writeFile('./dist/index.html', data, (err) => {
 
-    fs.writeFile('./dist/index.html', htmlData, (err) => {
-
-        err ? console.log(err) : console.log('Successfully created index.html!');
+        err ? console.log(err) : console.log('Successfully created index.html and it can be found in "dist" directory!');
     });
 }
 
@@ -170,12 +169,10 @@ const managerPrompt = () => {
     inquirer
         .prompt(managerQuestions)
         .then(answers => { 
-            console.log(answers);
-            const staff = new Manager(answers.fname, answers.id, answers.email, 'Manager', answers.office);
+            const staff = new Manager(answers.fname, answers.id, answers.email, answers.office);
 
             //add responses to empty array
             output.push(staff);
-            //console.log('push staff ' + JSON.stringify(output)); --> without stringify console returns [object Object]
 
             //build rest of team
             employeePrompt();
@@ -193,7 +190,7 @@ const employeePrompt = () => {
                 inquirer
                     .prompt(engineerQuestion)
                     .then(response => {
-                        const engineerStaff = new Engineer(answers.fname, answers.id, answers.email, 'Engineer', response.github);
+                        const engineerStaff = new Engineer(answers.fname, answers.id, answers.email, response.github);
                         
                         output.push(engineerStaff);
                         //console.log('push engineerStaff ' + JSON.stringify(output));
@@ -205,7 +202,7 @@ const employeePrompt = () => {
                 inquirer
                     .prompt(internQuestion)
                     .then(response => {
-                        const internStaff = new Intern(answers.name, answers.id, answers.email, 'Intern', response.school);
+                        const internStaff = new Intern(answers.name, answers.id, answers.email, response.school);
 
                         output.push(internStaff);
                         //console.log('push internStaff ' + JSON.stringify(output));
@@ -215,10 +212,10 @@ const employeePrompt = () => {
                     });
             } else {                
                 //send collected data stored in output array to templateBuilder.js
-                const htmlData = templateBuilder(output);
-
+                const exportData = templateBuilder(output);
+                
                 //handle writing html file 
-                writeToFile(htmlData);
+                writeToFile(exportData);
             }
         });
 }
@@ -240,11 +237,11 @@ const addStaff = () => {
                 employeePrompt();
              } else {
                 
-                //collected data stored in output array
-                const htmlData = templateBuilder(output);
-
-                // handle writing html file
-                writeToFile(htmlData); 
+                //send collected data stored in output array to templateBuilder.js
+                const exportData = templateBuilder(output);
+                
+                //handle writing html file 
+                writeToFile(exportData);
              }
         });
 }
