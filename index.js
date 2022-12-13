@@ -196,19 +196,19 @@ const employeePrompt = () => {
                         //console.log('push engineerStaff ' + JSON.stringify(output));
 
                         // add another team member
-                        addStaff();
+                        employeePrompt();
                     });
             } else if (answers.addmember === 'Intern') {
                 inquirer
                     .prompt(internQuestion)
                     .then(response => {
-                        const internStaff = new Intern(answers.name, answers.id, answers.email, response.school);
+                        const internStaff = new Intern(answers.fname, answers.id, answers.email, response.school);
 
                         output.push(internStaff);
                         //console.log('push internStaff ' + JSON.stringify(output));
                 
                         // add another team member
-                        addStaff();
+                        employeePrompt();
                     });
             } else {                
                 //send collected data stored in output array to templateBuilder.js
@@ -217,32 +217,6 @@ const employeePrompt = () => {
                 //handle writing html file 
                 writeToFile(exportData);
             }
-        });
-}
-
-// add another team member to cause loop
-const addStaff = () => {
-    inquirer
-        .prompt([
-            {
-                type: 'confirm',
-                name: 'plusone',
-                message: 'Do you want to add another team member?',
-                default: true,
-            },  
-        ]).then(answer => {
-            if (answer.plusone) { //truthy
-
-                // loop employee questions
-                employeePrompt();
-             } else {
-                
-                //send collected data stored in output array to templateBuilder.js
-                const exportData = templateBuilder(output);
-                
-                //handle writing html file 
-                writeToFile(exportData);
-             }
         });
 }
 
