@@ -35,6 +35,7 @@ Here is a green light on all the test passing.
 
 <a name="demo"></a> 
 ## Demo
+View generated HTML file [here](https://ebonygrrl.github.io/10-team-profile-generator/dist/).
 Here's an example of how to invoke this application.
 
 ![Invoke application](./dist/img/invoke-app.gif)
