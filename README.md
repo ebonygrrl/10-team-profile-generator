@@ -37,14 +37,11 @@ Here is a green light on all the test passing.
 ## Demo
 View generated HTML file [here](https://ebonygrrl.github.io/10-team-profile-generator/dist/).
 
+[Click here to view full video of demo](https://youtu.be/S4eFQ3Jqdbs)
+
 Here's an example of how to invoke this application.
 
 ![Invoke application](./dist/img/invoke-app.gif)
-
-Full video of demo
-
-[![YouTube thumbnail](./dist/img/tests-passed.png)](https://youtu.be/S4eFQ3Jqdbs)
-
 
 <a name="tests"></a>
 ## Testing
