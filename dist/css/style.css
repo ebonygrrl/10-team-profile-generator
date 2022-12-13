@@ -61,6 +61,11 @@ input:outline, input:focus, input:focus-visible {
 
 .container {
     margin-bottom: 30px;
+    width: 1000px;
+}
+
+.employee-block {
+    margin-bottom: 30px;
 }
 
 .employee-header {
@@ -79,7 +84,7 @@ input:outline, input:focus, input:focus-visible {
 
 .employee-details-wrap {
     background-color: #f7f7f9;
-    padding: 20px;
+    padding: 30px 20px;
 }
 
 .employee-details {
